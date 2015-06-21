@@ -77,40 +77,6 @@ function resizeimg(params, callback) {
                 })
             })
         });
-/*
-
-
-        var aspect
-        gm(params.src).size(function(err, size){aspect = size.width/size.height})
-
-        // Size based on aspect ratios
-        // The program will automatically resize to the largest of the
-        // dimensions. If the image is really wide, though, then we want
-        // to make it a little smaller to reduce its size.
-        var width = 42
-        var height = 18
-        if (aspect >= 7/3) {
-            width = 100
-            height = 14
-        }
-
-        asyncTasks = []
-
-        // Retina Sprites
-        asyncTasks.push(function(cb) {
-            var r = gm(params.src).resize((width*2).toString(), (height*2).toString()).stream();
-            r.pipe(fs.createWriteStream(params.dest + '2x/' + params.file));
-            r.on('end', function(){cb()})
-        })
-
-        // Normal Sprites
-        asyncTasks.push(function(cb) {
-            var r = gm(params.src).resize((width).toString(), (height).toString()).stream();
-            r.pipe(fs.createWriteStream(params.dest + '/' + params.file));
-            r.on('end', function(){cb()})
-        })
-
-        async.parallel(asyncTasks, callback)*/
     } else {
         callback(null)
     }
