@@ -131,15 +131,16 @@
             height: y-size
         
 
-    sprite(column, row, sheet = 'spritesheet', w = 0, h = 0, oneliner = false, important = false)
+    sprite(column, row, sheet = 'spritesheet', w = 0, h = 0, sizes = true, oneliner = false, important = false)
         // Initialise an image using a spritesheet
         // `column` and `row` describe the sheet co-ords, starting at
         //      (1, 1) in the top left corner of the sheet.
         // `sheet` is the name of the image
         // `w` and `h` are the custom width and height of the _sprite_
         // `oneliner` is passed to `image()`
+        // `sizes` is passed to `image()`
         // `important` is passed to `image()`
-        image(sheet, spritesheet: true, oneliner: oneliner, important: important)
+        image(sheet, spritesheet: true, oneliner: oneliner, sizes: sizes, important: important)
         background-pos(column, row, sheet)
         
         important = exclaim(important)
@@ -152,7 +153,7 @@
             width: w
             height: h
         
-    night-sprite(column, row, sheet = 'spritesheet', w = 0, h = 0, oneliner = false, vertically = true, important = false)
+    night-sprite(column, row, sheet = 'spritesheet', w = 0, h = 0, oneliner = false, sizes = true, vertically = true, important = false)
         // Adjusts a sprite for either the inbuilt dark mode, or RES'
         // `vertically` determines whether the dark mode version of the
         //      sprite will be found below the light mode one, or to the
@@ -180,9 +181,9 @@
                 new_column = column + ceil(w / base_height)
 
         if light_body
-            sprite(column, row, sheet, w, h, oneliner, important)
+            sprite(column, row, sheet, w, h, oneliner, sizes, important)
         else
-            sprite(new_column, new_row, sheet, w, h, oneliner, important)
+            sprite(new_column, new_row, sheet, w, h, oneliner, sizes, important)
         {night} &
             background-pos(new_column, new_row, sheet, important)
         
