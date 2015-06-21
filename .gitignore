@@ -28,3 +28,6 @@ node_modules
 
 # CSS output (generate this yourself)
 output.css
+
+# Flairs directory (generate this yourself also)
+flairs
