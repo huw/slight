@@ -181,9 +181,9 @@
                 new_column = column + ceil(w / base_height)
 
         if light_body
-            sprite(column, row, sheet, w, h, oneliner, sizes, important)
+            sprite(column, row, sheet, w, h, sizes, oneliner, important)
         else
-            sprite(new_column, new_row, sheet, w, h, oneliner, sizes, important)
+            sprite(new_column, new_row, sheet, w, h, sizes, oneliner, important)
         {night} &
             background-pos(new_column, new_row, sheet, important)
         
