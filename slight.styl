@@ -1,7 +1,7 @@
 /*!
     Slight, by huw
     Find us at /r/Slight or /u/3vans
-    v1.0 (beta)
+    v1.0.0
     PLEASE DON'T DIRECTLY EDIT THE CSS HERE! USE STYLUS AND AN EDITOR!
 */
 
@@ -121,7 +121,7 @@
   // than editing any of the other sheets.
       
 /*** NAME CHANGES ***/
-    names = ()
+    names = ('3vans')
     
     {join('a.author[href$="/%s"]', names)}
         visibility hidden
@@ -135,4 +135,4 @@
 
     for name in names
         {'a.author[href$="' + name + '"]::after'}
-            content "[Mod] " + name
+            content "huw (" + name + ")"
