@@ -761,13 +761,13 @@
             background-color transparent
         border none
         background none
-        margin 0
         if image_flairs
             // We don't use `sprite()` because if they don't want image
             // flairs, they won't have a `flairsheet.png` anywhere.
             // Width and height will be overridden by custom flairs.
             width 0
             height 0
+            margin 0 0 0 5px
             padding 0
             border-radius 0
             
@@ -783,6 +783,7 @@
                 background-image url('flairsheet2x')
                 
         else
+            margin 0
             padding 0 0.3rem
             nightadjust 'color' secondary_text #fff
             font-size 0.65rem
