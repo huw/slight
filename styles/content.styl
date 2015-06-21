@@ -1,0 +1,1251 @@
+/**** BOARD ****
+ *  'Board' is the stuff which is held on the page - the main content 
+ *  which is both the focus of every page, and the most variable 
+ *  content. Note that the sidebar is not stored within Board, but under
+ *  'Side'. The sidebar may have some of its styling affected by broader 
+ *  titles under Board
+ */
+     
+    body > .content
+        padding 2vh 2.5vw
+        margin 0
+        &, /body
+            nightadjust background backing backing_dark
+        
+    body.listing-page > .content
+        padding 0
+        
+    .content .spacer
+        margin 0
+
+/*** TEXT STYLES ***/
+    h1, h2, h3, h4, h5, h6
+        font(weight: 600, height: 1.56rem)
+    
+    h1, h1 a
+        text-transform capitalize
+        font-size 2rem
+        line-height 2rem
+    {night} h1
+        border none    
+
+    h2, h2 a
+        text-transform capitalize
+        color primary
+        font-size 1.5rem
+        line-height 3rem
+    h2 a:hover
+        color inherit
+        text-decoration none
+        
+    a
+        color primary
+        transition color 0.2s ease
+        font()
+        .hover &:hover, &:hover
+            color darken(@color, 40%)
+            text-decoration none
+    
+    // Usually the label for a form
+    label
+        nightadjust 'color' hint hint_dark
+        cursor text
+        font(0.75rem, 400)
+
+    // Reddit's custom error styling
+    .error, .errors
+        color red
+        font()
+        
+    .errors a
+        &, &:hover
+            color inherit
+                
+/*** SPOILERS ***
+ * Users can write in spoilers using what appears to be standard syntax.
+ * [Spoiler!](#s Snape kills Dumbledore)
+ */
+    a[href$="#s"]
+        padding-left 2px
+        border-radius 2px
+        cursor default
+        background #000
+        color #fff !important
+        display inline-block
+
+    a[href$="#s"]::after
+        content attr(title)
+        color #000
+        padding 0 0.5em
+        visibility visible
+        transition color 0.3s ease
+        
+    a[href$="#s"]:hover
+        color #fff !important
+
+    a[href$="#s"]:hover::after,
+    a[href$="#s"]:active::after
+        color #fff
+                
+
+/*** MARKDOWN STYLING ***/
+    .md
+        if light_body
+            color black
+        else
+            color white
+        {night} &
+            color white !important
+
+        a
+            color primary
+            &:visited
+                color darken(@color, 20%)
+            &:hover
+                color darken(@color, 40%)
+        
+        h5
+            font-weight 500
+
+        /** Card Display **/
+        blockquote
+            margin 2px
+            padding 8px
+            border none
+            border-radius 2px
+            nightadjust background #fff lighten(backing_dark, 5%)
+            color inherit
+            shadow(1)
+            
+        pre
+            border solid 1px
+            nightadjust border-color divider divider_dark
+            nightadjust background darken(backing, 5%) lighten(backing_dark, 10%)
+            
+        code
+            margin 0
+            padding 0 3px
+            border solid 1px
+            nightadjust border-color divider divider_dark
+            nightadjust 'color' black white !important
+            font-family "Roboto Mono", "Andale Mono", Consolas, monospace
+            &, /.new-comment .md :not(pre)>code, /.link .md :not(pre)>code, 
+            /.usertext.border .md :not(pre)>code, /.new-comment .md pre, 
+            /.link .md pre, /.usertext.border .md pre
+                nightadjust background-color darken(backing, 5%) lighten(backing_dark, 10%) !important
+            
+        hr
+            margin 2vh 0
+            height 1px
+            nightadjust background divider divider_dark
+        
+        /** Message the moderators button **/
+        h2 a[href*="/message/compose?to=%2Fr%2F"]
+            display block
+            float inherit
+            text-align center
+            font-size 1.56rem
+            line-height inherit
+            
+        del
+            color inherit
+            
+    .link .usertext-body .md
+        background-color transparent
+        border none
+        border-top 1px solid
+        border-bottom 1px solid
+        border-radius 0
+        nightadjust border-color divider divider_dark
+        
+    .keyNavAnnotation
+        display none
+
+
+/*** BUTTONS ***/
+    .btn
+        padding 4px
+    
+    // All buttons of this type use the same styling, regardless of
+    // their selector being an `a` or `button`.
+    .btn a, .usertext-edit .bottom-area a, #suggest-title button,
+    .side .md a[href^="https://ns.reddit.com"], 
+    .side .md a[href^="https://nv.reddit.com"],
+    .side .md a[href^="https://vs.reddit.com"]
+        margin 0
+        padding 4px 8px
+        font-weight 500
+        text-transform uppercase
+        transition background 0.3s ease
+        &:hover
+            color primary
+            nightadjust background rgba(#999, 20%) rgba(#ccc, 15%)
+        &:active
+            nightadjust background rgba(#999, 40%) rgba(#ccc, 25%)
+
+    button.btn, .morelink, .sidecontentbox a.helplink,
+    .md h2 a[href*="/message/compose?to=%2Fr%2F"], .usertext-buttons button,
+    .fancy-toggle-button.toggle .active
+        min-width 88px
+        padding 8px
+        border none
+        border-radius 2px
+        outline none
+        background-color darken(primary, 5%)
+        background-image none
+        nightadjust 'color' #fff black
+        text-transform uppercase
+        letter-spacing 0.6px
+        transition box-shadow 0.2s ease, background-color 0.2s ease
+        font(0.75rem, 500)
+        &:hover, {night} &:hover
+            background-color darken(@background-color, 10%)
+            background-image none
+        &:active, {night} &:active
+            background-color darken(@background-color, 20%)
+            
+        {night} &
+            border none
+            background-color @background-color
+    
+    {night}
+        button.RESBigEditorPop:hover, .usertext-buttons button:hover, 
+        #REScommentSubToggle:hover, .save-button .btn:hover, #delete-img:hover
+            background-color darken(primary, 20%)
+
+
+/*** INPUTS ***/
+    input
+        &[type=text], .pretty-form &[type=text], /.pretty-form textarea,
+        /.usertext-edit textarea, .roundfield &[type=url],
+        .roundfield &[type=password], .roundfield &[type=number],
+        .roundfield &[type=text], /.roundfield textarea, &[type=password]
+            border none
+            border-bottom 1px solid
+            nightadjust border-color divider divider_dark
+            outline none
+            nightadjust background backing backing_dark
+            nightadjust 'color' black white
+            box-shadow none
+            transition border-bottom 0.3s ease
+            font(0.75rem, 400)
+            &:focus
+                border-bottom 3px solid primary
+        &[type=file]
+            nightadjust 'color' hint hint_dark
+            font(0.75rem, 500)
+        #search &[type=text]
+            border none
+            border-bottom 1px solid
+            nightadjust border-color divider divider_dark
+            &:focus
+                border-bottom 3px solid primary
+                
+    .pretty-form textarea, .usertext-edit textarea
+        max-width 94vw
+        overflow auto
+        font-size 0.9rem
+        line-height 1.56rem
+            
+    form input
+        &[type=checkbox], &[type=radio]
+            position relative
+            bottom 1px
+
+        
+/*** STYLESHEET PAGE ***/
+    .stylesheet-customize-container
+        #RESStyleSheetTipPane
+            display none !important
+        .col div 
+            padding 0
+            
+        textarea
+            height 55vh
+            font-family "Roboto Mono", "Andale Mono", Consolas, monospace
+        .btn.right
+            position relative
+            right -8px
+            padding-right 0
+        input[type=text]
+            width 25vw
+            max-width 300px
+            
+        h2, .link
+            margin 0
+                
+    .sheets .btn
+        margin-right 12px
+        
+    #preview-table table
+        width auto
+        border none
+        th
+            nightadjust 'color' black white
+            font()
+            
+    #images
+        h2, h2 a
+            padding-top 2.5rem
+            line-height 1rem
+        label
+            line-height 1.56rem
+            &[for=file]
+                display none
+            &[for=img_type], &[for=img-name]
+                margin-right 5px
+        br:last-of-type
+            display none
+        span.little
+            nightadjust 'color' hint hint_dark
+            font(0.6rem, 500)
+            
+        ul#image-preview-list .description
+            font(0.75rem)
+            b, span, pre
+                nightadjust 'color' black white
+                
+/*** LINK LIST ***
+ *  This formats the list of links and self posts - a.k.a siteTable
+ *  You'll see this on the stylesheet page, as a link preview, but that
+ *  _may_ not completely work.
+ */
+ 
+    // Let the vote count be as wide as it is
+    body > .content .link > .midcol, .midcol-spacer
+        width auto
+        max-width 3rem
+
+    .thing:not(.comment)
+        padding 1vh 2.5vw !important
+        {night} &.link
+            margin-bottom 8px
+        
+    .rank, body > .content .link > .rank
+        display none
+
+    .midcol, body > .content .link > .midcol
+        margin -1px 0.5vw 0 0
+        {ops('vote')}
+            margin 7px 0.5vw 0 0
+    
+    .thumbnail
+        position relative
+        width 72px
+        height 50px
+        margin 0 4px 0 0
+        img
+            position absolute
+            top 50%
+            transform translateY(-50%)
+            max-width 72px
+            width auto
+            height auto
+                    
+/*** THUMBNAILS ***/
+    .thumbnail.self, .thumbnail.default, .over18 .thumbnail
+        sprite(1, 11, w: 50px, h: 50px)
+        margin 0 12px
+    
+    .thumbnail.self
+        night-pos(1, 11, base: 3, important: true)
+        
+    .thumbnail.default
+        night-pos(4, 11, base: 3, important: true)
+    
+    // We don't use `.tumbnail.nsfw` because this one actually replaces
+    // the thumbnail. The other styles don't have a thumbnail image.
+    // If that makes sense.
+    .over18 .thumbnail
+        night-pos(1, 17, base: 3, vertically: false, important: true)
+        img
+            display none
+                    
+/*** VOTE ***/
+    // By the way, we prepend `.midcol` so that we can override the
+    // default background-image. This is because reddit applies
+    // `background-image` to all elements AND puts `background-position`
+    // on top of that. The best way to override this is with greater
+    // specificity. And `!important`, because why not?
+    .midcol .arrow
+        margin-top 0
+        sprite(7, 5, important: false)
+        &.up
+            if light_body
+                background-pos(7, 5, important: true)
+            else
+                background-pos(7, 7, important: true)
+            &mod
+                background-pos(2, 7, important: true)
+                
+        &.down
+            if light_body
+                background-pos(1, 7, important: true)
+            else
+                background-pos(7, 8, important: true)
+            &mod
+                background-pos(2, 8, important: true)
+                    
+    {night} .midcol .arrow
+        &.up, &.up:hover, &.upmod, &.down, &.down:hover, &.downmod
+            sprite(1, 1, oneliner: true, important: true)
+        
+        &.up
+            &, &:hover
+                background-pos(7, 7, important: true)
+            &mod
+                background-pos(2, 7, important: true)
+            
+        &.down
+            &, &:hover
+                background-pos(7, 8, important: true)
+            &mod
+                background-pos(2, 8, important: true)
+        
+    .score
+        nightadjust 'color' hint #fff !important
+        {ops('vote')}
+            display none !important
+            
+    .totalvotes
+        {ops('vote')}
+            display none
+
+    .link .score
+        nightadjust 'color' hint #fff
+        
+        &.likes, {night} &.likes
+            color orangered
+
+        &.dislikes, {night} &.dislikes
+            color periwinkle
+            
+/*** Post Entry Area ***
+ *  The following block of code converts the usual reddit `.thing` into
+ *  a more neatly-designed two-line list element. If you don't want this
+ *  to happen, remove this block and you _should_ be okay. No promises.
+ *  (I have left some font sizing in here because it's a little specific
+ *  to this use-case, as well. Be warned.)
+ *
+ *  I also had a lot of trouble with getting this to work, and as a
+ *  result, have __no idea__ how this actually works.
+ *
+ *  Oops.
+ */
+
+    .link
+        .title
+            // `table` prevents full-width links
+            display table
+
+        .entry
+            &>.title, .flat-list.buttons
+                display inline
+                
+            &>.title
+                margin 0
+                a
+                    overflow hidden
+                    text-overflow ellipsis
+                    white-space nowrap
+                    if fonts[0] = "San Francisco Display"
+                        // San Francisco does not yet have an adequete
+                        // 330-weighted variant. If it's being used,
+                        // fall back to Helvetica Neue
+                        font-family "Helvetica Neue", Roboto, Arial, sans-serif
+                        font-size 1.2rem
+                        font-weight 300
+                    else
+                        font(1.2rem, 300)
+                    
+                .domain
+                    font-size 0
+                    a
+                        position relative
+                        margin-right 0.2rem
+                        bottom 1px
+                        font(0.75rem, 400)
+                        .res &
+                            bottom 4px
+                            
+    .approval-checkmark
+        margin-bottom -2px
+                        
+    .tagline
+        font-size 0.75rem
+        a:hover
+            text-decoration none
+        
+    .flat-list.buttons
+        font-size 0.75rem
+        .listing-page & .first
+            position relative
+            float left
+            bottom -1px
+            
+/*** Advertisements ***/
+    .organic-listing // Ironic
+        border none !important
+        background-color promoted_link_background !important
+
+/*** Formatting ***/
+    // Link title
+    .thing .title
+        color primary
+        &:visited, /.thing.visited .title
+            // We have to blend colours here, because of :visited's
+            // security requirements - no transparency allowed
+            nightadjust 'color' blend(secondary_text, backing) blend(secondary_text_dark, backing_dark)
+            &:hover
+                color primary
+        &:hover
+            color darken(primary, 30%)
+                
+    .thing .entry
+        border-left 0px solid primary
+        transition padding 0.2s ease, border 0.2s ease
+        /.tagline, .flat-list.buttons li a
+            font(0.75rem, 400)
+            
+        /.tagline, .flat-list.buttons a, .domain a, .domain a:hover::after
+            nightadjust 'color' secondary_text #fff
+
+        .flat-list.buttons a:hover, .domain a:hover
+            color primary
+            text-decoration none
+    
+    // Just on the link display (not for comments)
+    .link .tagline   
+        time
+            nightadjust 'color' secondary_text #fff
+        
+        // Confusion: The time is displayed in `.live-timestamp`, but
+        // the asterisk for an edited post is displayed in 
+        // `.edited-timestamp`. A post which hasn't been edited shows
+        // neither of them.
+        //
+        // To add to the annoyance, reddit doesn't always apply `.live-
+        // timestamp` to the elements, so the best shot is to apply our
+        // style to the _last_ `time` element in a series. Remember, we
+        // ultimately want the dash only on the last element in our time
+        // display—separating the asterisk is useless and dirty.
+        > time:last-of-type
+            &::after
+                content " -"
+                margin-right 0.2rem
+    
+    .link .entry  
+        // Don't show the domain for self posts, that's obvious
+        .domain a[href^="/r/"]
+            display none
+        
+        .domain a
+            text-decoration none
+            &::after
+                content " -"
+    
+    // `tagline` = Username
+    .link .tagline
+        display inline-block
+        height 18px
+        vertical-align middle
+        font-size 0
+        time, /a.author
+            font-size 0.75rem
+            
+        a.subreddit
+            margin-left 0.4rem
+            font-weight 400
+    
+    {night} // I HATE NIGHT MODE
+        #siteTable .visited.link .title.loggedin,
+        #siteTable .link .title.loggedin:visited,
+        #siteTable .link .title:visited
+            color blend(secondary_text_dark, backing_dark)
+            &:hover
+                color primary
+        #siteTable .thing .title,
+        #siteTable .thing .title.loggedin
+            color primary
+            &:hover
+                color darken(primary, 30%)
+        #siteTable .thing.stickied .title
+            color #fff !important
+            
+        body .RES-keyNav-activeElement
+            &, .usertext-body, .usertext-body .md, .usertext-body .md p
+            /{night} .commentarea .RES-keyNav-activeElement .noncollapsed,
+            .noncollapsed .md, .noncollapsed .md p
+                background-color transparent !important
+                color white !important
+            
+        .help-toggle .option, .reddiquette
+            color primary
+        
+    // Only hide the buttons on the listing page
+    .listing-page .flat-list.buttons > li
+        &:not(.first)
+            padding 0
+            & > *:not(.drop-choices)
+                display none
+
+        &.nsfw-stamp acronym
+            display inline !important
+                
+        .moderator&
+            &>.remove-button,
+            &>.approve-button, 
+            &>.marknsfw-button,
+            &>.flairselectbtn
+                display block
+                margin-left 0.4rem
+                    
+    .entry .buttons li+li
+        padding-left inherit
+    
+    .thing .flat-list.buttons li.first a
+        font-weight 600
+        
+    .stamp
+        border 0px solid !important
+    .nsfw-stamp acronym
+        margin-left 0.2rem
+        border 1px solid red !important
+        border-radius 2px
+        color red
+        font()
+        
+    // RES/Reddit borders (the annoying dash'd ones)
+    .link.last-clicked
+        border none
+        overflow inherit
+    
+    // For RES Keynav, so the highlight border pushes out
+    .comment .entry
+        transition padding 0.3s ease
+
+    .thing
+        .RES-keyNav-activeElement
+            padding-left 5px
+            outline none
+            .listing-page &
+                border-left 2px solid primary
+    
+    // I really don't like this feature's styling choices.  
+    .thing .RES-keyNav-activeElement, 
+    .commentarea .comment .RES-keyNav-activeElement .md, 
+    .commentarea .comment .RES-keyNav-activeElement.entry .noncollapsed
+        background-color transparent !important
+            
+/*** LINK FLAIR ***/
+    .linkflairlabel
+        float left
+        position relative
+        top 4px
+        padding 1px 2px
+        border 0
+        border-radius 0px
+        background secondary_text
+        nightadjust 'color' backing #fff
+        text-transform uppercase
+        font(weight: 600)
+    
+    // Spoiler flair
+    .linkflair-spoiler
+        .linkflairlabel
+            background red
+        // Black out the thumbnail and text for anything with a spoiler
+        {ops('spoil')}
+            a.title
+                background #000
+                color #000
+                transition background 0.15s ease
+            .thumbnail
+                background #000
+                transition background 0.15s ease 
+                img
+                    opacity 0
+                    transition opacity 0.15s ease
+            a.title, .thumbnail, .thumbnail img
+                transition-delay 0.3s
+            
+            &:hover 
+                a.title, .thumbnail
+                    background transparent
+                .thumbnail img
+                    opacity 1
+        
+    /* Add custom link flairs at the bottom of the stylesheet!
+       All you have to change is the `background-color`! */
+        
+/*** STICKIED POST ***/
+    .stickied
+        &, {night} .listing-page .sitetable > div&
+            background green
+        .link&
+            padding-top 2vh !important
+            body:not(.hot-page) &
+                padding 2vh 0 2vh 2.5vw
+                margin-right 315px
+            .entry.RES-keyNav-activeElement
+                border-color transparent
+                  
+            .approval-checkmark, .domain, time::before
+                display none
+              
+            .arrow
+                &.up
+                    background-pos(7, 7, important: true)
+                &.down
+                    background-pos(7, 8, important: true)
+                      
+            .thumbnail
+                background-pos(1, 14, important: true)
+                  
+            a.title, a.title:hover, a.title:visited
+                font-weight 600
+
+            .domain a, .flat-list.buttons a, a.author, .flair, a.title:visited,
+            .score.unvoted, a.title, /.thing.link.stickied time,
+            /.thing.link.stickied time::after
+                color #fff
+
+            time:hover, time::after:hover, .flair:hover
+                color #fff
+                
+            .domain a:hover, .flat-list.buttons a:hover, a.author:hover,
+            a.title:hover
+                color #eee
+                
+        .md
+            color rgba(#fff, 0.95)
+            a
+                color lighten(primary, 60%)
+                &:visited
+                    color lighten(primary, 70%)
+                &:hover
+                    color lighten(primary, 30%)
+            blockquote
+                color black
+      
+/*** USERNAME AND FLAIR ***/
+    a.author
+        margin-right 0
+        if image_flairs
+            nightadjust 'color' black secondary_text
+        else
+            nightadjust 'color' secondary_text secondary_text_dark
+        &:hover
+            color primary
+    
+    /** RES User Tagger **/    
+    .RESUserTag
+        & .RESUserTagImage, /.voteWeight
+            display none
+        a.hasTag
+            margin-left 0.3rem
+            border none
+            font-size 0.65rem
+            text-transform uppercase
+
+    .RESDialogSmall
+        border-radius 2px
+        background backing
+        
+        & > h3
+            background none
+            
+    /** Flair **/
+    .flair
+        {night} &
+            background-color transparent
+        border none
+        background none
+        margin 0
+        if image_flairs
+            // We don't use `sprite()` because if they don't want image
+            // flairs, they won't have a `flairsheet.png` anywhere.
+            // Width and height will be overridden by custom flairs.
+            width 0
+            height 0
+            padding 0
+            border-radius 0
+            
+            background-image url('flairsheet')
+            background-repeat no-repeat
+            background-size image-size('images/flairsheet.png')
+            
+            text-indent -9999px
+            cursor help
+            vertical-align middle
+            
+            @media retina
+                background-image url('flairsheet2x')
+                
+        else
+            padding 0 0.3rem
+            nightadjust 'color' secondary_text #fff
+            font-size 0.65rem
+            font-weight 500
+            text-transform uppercase
+            
+            &::before, &::after
+                display inline-block
+                
+            &::before 
+                content "["
+            &::after
+                content "]"
+                
+    /** Submitter Name (Userattrs) **/
+    .tagline .author
+        &.submitter
+            background blue !important
+        &.moderator
+            background green !important
+        &.friend, &.admin, &.alum
+            background red !important
+            
+        &.submitter, &.moderator, &.admin, &.alum, &.friend
+            padding 0 2px
+            border-radius 2px
+            color backing
+            font-weight 600
+            transition background 0.3s ease
+            &:hover
+                color backing
+                background primary !important
+
+    .userattrs
+        display none
+
+/*** EXPANDOS ***/
+    .expando-button
+        background none
+        transition background-position 0.3s ease
+        
+        &.selftext
+            cursor pointer
+        
+        &.selftext.collapsed, &.selftext.collapsed:hover,
+        &.selftext.expanded, &.selftext.expanded:hover,
+        &.video.collapsed, &.video.collapsed:hover,
+        &.video.expanded, &.video.expanded:hover,
+        &.image.collapsedExpando, &.image.collapsedExpando:hover,
+        &.image.gallery.collapsedExpando, &.image.gallery.collapsedExpando:hover,
+        &.video-muted.collapsed, &.video-muted.collapsed:hover,
+        &.image.expanded, &.image.expanded:hover,
+        &.image.gallery.expanded, &.image.gallery.expanded:hover,
+        &.video-muted.expanded, &.video-muted.expanded:hover
+            sheet = 'spritesheet'
+            background-image: url(sheet) !important
+            @media retina
+                background-image: url(sheet + '2x') !important
+            background-size: image_data['spritesheet'].size !important
+            width 18px
+            height 18px
+
+        &.selftext.collapsed, &.selftext.collapsed:hover
+            night-pos(3, 7, important: true)
+            
+        &.selftext.expanded, &.selftext.expanded:hover
+            night-pos(4, 7, important: true)
+        
+        // Yes, we do use different sprites for the same image when
+        // dealing with expandos. Maybe you've guessed why - we animate
+        // the `background-position` on click!  
+        &.video.collapsed, &.video.collapsed:hover
+            night-pos(5, 7, important: true)
+            
+        &.video.expanded, &.video.expanded:hover
+            night-pos(6, 7, important: true)
+            
+        // Gifs (Soft G), images and albums
+        &.image.collapsedExpando, &.image.collapsedExpando:hover,
+        &.image.gallery.collapsedExpando, &.image.gallery.collapsedExpando:hover,
+        &.video-muted.collapsed, &.video-muted.collapsed:hover
+            night-pos(1, 9, important: true)
+            
+        &.image.expanded, &.image.expanded:hover,
+        &.image.gallery.expanded, &.image.gallery.expanded:hover,
+        &.video-muted.expanded, &.video-muted.expanded:hover
+            night-pos(2, 9, important: true)
+        
+    // Expando expanded
+    .listing-page .expando .usertext-body .md
+        margin-bottom 0
+        padding-bottom 0
+
+
+/**** COMMENTS PAGE ****
+ *  The comments page is a crucial and sometimes neglected part of the
+ *  stylesheet. Luckily, most of our normal styling still applies ^_^
+ */
+
+    /*** LINK & DIVIDER AREA ***/
+    body.comments-page > .content
+        padding 0
+
+    // If there's no expando, then chop the margin up
+    .comments-page .link:not(.self)
+        margin-bottom -25px
+
+    .commentarea
+        margin 2.5vh 315px 1vh 2.5vw
+        padding-top 1vh
+                
+        > #siteTable > .thing
+            shadow(1)
+            
+    .menuarea
+        display inline-block
+        nightadjust 'color' hint hint_dark
+        .toggle a
+            font-weight 400
+        &, & > .spacer
+            margin 0
+            
+    .dropdown.lightdrop .selected, .menuarea .toggle a
+        nightadjust 'color' hint hint_dark
+    
+    // Get rid of quite a few (arguably) useless things
+    .panestack-title, #REScommentNavToggle, .help-hoverable
+        display none
+        
+    .drop-choices
+        border none
+        shadow(1)
+        a.choice:hover
+            background darken(backing, 5%)
+            
+    .gold-accent.comment-visits-box
+        margin 0 0 0 .5rem
+        padding 0
+        vertical-align top
+        background none
+        border none
+        nightadjust 'color' secondary_text secondary_text_dark
+
+    /*** ACTUAL COMMENTS ***/
+    .nestedlisting
+        margin 1vh 2.5vw 0 0
+        
+        .tagline a
+            nightadjust 'color' secondary_text secondary_text_dark
+            &:hover
+                color primary
+                    
+        .res & > .comment
+            background #fff
+            shadow(1)
+    
+    // Not even gonna bother changing the colour here
+    // This is something you have to put up with for using RES       
+    .res-commentBoxes .comment
+        border none !important
+    
+    .res-commentBoxes.res-commentBoxes-rounded .comment
+        border-radius 2px !important
+                    
+    .comment
+        margin 2.5vh 0
+        .midcol
+            width 18px
+        .entry, .midcol
+            margin 1vh 5px
+            
+        .flat-list.buttons 
+            a
+                font-size 0.65rem
+                font-weight 400
+                &:hover
+                    text-decoration none
+                    color primary
+            
+            .saveComments, .sendreplies-button, .toggleChildren
+                display none
+                
+        .child, .showreplies
+            margin 0
+            border none
+    
+    // No idea what this is actually doing
+    // Probably something really, really cool that would break the whole
+    // stylesheet if removed. I'd leave it alone.
+    .commentarea > .sitetable .sitetable
+        margin 1vh 0 0 2rem
+        padding-left 0.5rem
+        border-left 1px solid
+        nightadjust border-color divider divider_dark
+        .res &
+            margin-left 0.5rem
+            border none
+    
+    // Styling for 'comments posted since last visit' (on the comments)
+    // Pretty happy with this one, too. It's a little left-of-field.   
+    .new-comment
+        .tagline::after
+            padding 1px 2px
+            background green
+            color #fff
+            border-radius 2px
+            content "NEW"
+            font(0.65rem, 600)
+
+        .usertext-body
+            background none
+            border none
+        
+        {night} &
+            .usertext-body 
+                background none
+                .md
+                    border none
+            
+    {night} .comment .md a
+        color primary !important
+        &:visited
+            color darken(primary, 20%) !important
+        &:hover
+            text-decoration none !important
+            color darken(primary, 40%) !important
+            opacity 1 !important
+            
+    /*** POST/EDIT COMMENT ***/
+    .markdownEditor, .RESBigEditorPop
+        display none
+
+    .usertext-edit
+        width 55vw
+        max-width 48rem
+        .markdownEditor-wrapper
+            width auto
+
+        .commentingAs, .RESMacroWrappingSpan
+            margin-top 0
+            padding-top 0
+            vertical-align top
+            
+        .commentingAs, .RESMacroDropdownTitle
+            nightadjust 'color' hint hint_dark
+
+        .RESMacroDropdownTitle
+            padding-right 0
+            background-image none
+            
+        .md
+            width auto
+            height auto
+        
+        textarea
+            width 100%
+            border 1px solid
+            nightadjust border-color divider divider_dark 
+            transition height 0.15s ease, border-bottom 0.15s ease
+            transition-delay 0.3s
+            &:focus
+                height 40vh
+                max-height 30rem
+                
+        .toggle.help-toggle
+            margin-top 4px
+            
+    .comment .usertext-edit 
+        padding-left 36px
+        textarea
+            nightadjust background-color #fff backing_dark
+            height 30vh
+            max-height 30rem
+                
+    /** RES Live Preview **/
+    .livePreview, .livePreview .md
+        background-color rgba(#bbb, 20%) !important
+        
+    .livePreview
+        width 55vw
+        max-width 48rem
+        .md
+            margin 1vh 0
+            padding-bottom 0
+        > h3
+            display none
+            
+    .usertext-buttons button
+        margin-right 12px
+
+    .linkinfo
+        border none
+        background-color rgba(primary, 10%)
+        .shortlink input
+            border none
+            border-bottom 1px solid
+            nightadjust border-color divider divider_dark
+            background transparent
+            font-family "Roboto Mono", "Andale Mono", Consolas, monospace
+
+/*** SUBMIT/SETTINGS PAGES ***
+ * This is for anything which uses the traditionally-blue fields for
+ * posting and editing settings. Let's modernise them!
+ */
+ 
+    .tabmenu.formtab, .formtabs-content, .info-notice, 
+    .fancy-settings .pretty-form
+        width 55vw
+        max-width 48rem
+        
+    .roundfield .usertext-edit, .formtabs-content .roundfield,
+    .linefield textarea, .linefield input[type=text],
+    .linefield input[type=password], .linefield
+        width 100%
+
+    ul.tabmenu.formtab
+        padding-left 0
+        text-align center
+        
+        li a
+            display inline-block
+            padding 2vh 0
+            border solid 1px primary
+            nightadjust background backing backing_dark
+            font-size 2rem
+            font-weight 200
+            text-transform uppercase
+            transition background 0.3s ease, color 0.3s ease
+            &:hover
+                color primary
+                nightadjust background darken(backing, 5%) lighten(backing_dark, 5%)
+                
+        li:first-of-type a
+            border-top-left-radius 2px
+        
+        li:last-of-type a
+            border-top-right-radius 2px
+
+        .selected a
+            font-size 2rem
+            background primary
+            border solid 1px primary
+            color #fff
+            &:hover
+                color #fff
+                background darken(primary, 10%)
+    
+    .formtabs-content  
+        nightadjust 'color' secondary_text secondary_text_dark
+        .infobar
+            padding 1rem
+            border solid 1px primary
+            border-bottom-left-radius 2px
+            border-bottom-right-radius 2px
+            background primary
+            color #fff
+            text-align center
+            font-size 1.3rem
+            font-weight 500
+            
+        .spacer+.spacer
+            margin 0
+            
+        .roundfield
+            padding 0
+            padding-top 1rem
+            background none
+            
+            textarea, input[type=text], input[type=url],
+            input[type=password], input[type=number]
+                width 100%
+                padding 0.2rem 0
+                nightadjust 'color' black white
+                font-size 1.5rem
+                
+            textarea
+                max-width 48rem
+                
+            label
+                color inherit
+                
+        .roundfield-content
+            margin-top 0
+                
+        .title, .gray
+            font-size 1rem
+            
+    body span.RESCharCounter, .gray
+        nightadjust 'color' hint hint_dark
+        
+    .formtabs-content, .linefield .usertext-edit
+        textarea
+            height 40vh
+            font-size 1.1rem 
+        .markdownEditor-wrapper, .reddiquette, .help-toggle
+            display none
+            
+    #title-field textarea
+        height 1.9rem
+        
+    /** PRETTY FORM **/
+    .linefield
+        margin-bottom 2vh
+        padding 0
+        background none
+        
+        .title
+            padding 0
+            nightadjust 'color' secondary_text secondary_text_dark
+            font-size 1rem
+            font-weight 400
+            &+.gray
+                display none
+                
+        .linefield-content 
+            padding 0
+            
+        input[type=text], input[type=url], input[type=password], 
+        input[type=number]
+            font-size 1.5rem
+
+/*** SUBMIT PAGE ***
+ * Anything which is specific to the submit page. Warnings/banners go
+ * here, please
+ */
+
+    .submit-page
+        .content > h1:first-of-type, #suggested-reddits
+            display none
+            
+        .tabmenu.formtab li a
+            width 49.7%
+            
+        .formtabs-content
+            border-top none
+            padding-top 0
+            
+        #link-desc
+            display block !important
+            font-size 0px
+            
+            &::before
+                content submit_warning
+                font-size 1.3rem
+            
+        #text-desc
+            display none !important
+            
+    #suggest-title button
+        margin 0
+        border none
+        background transparent
+        color primary
+        font(0.75rem, 600)
+        
+    .content.submit .info-notice
+        margin-top 2vh
+        padding 0.5rem 0
+        border none 
+        border-radius 2px
+        background blue
+        font-weight 500
+        &, a
+            nightadjust 'color' backing #fff
+        &::before
+            margin-left 0.5rem

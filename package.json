@@ -1,0 +1,16 @@
+{
+    "name": "reddit-slight",
+    "version": "1.0.0",
+    "description": "Slight – Simple and powerful CSS for subreddits",
+    "dependencies": {
+        "mkdirp": "*",
+        "node-sprite-generator": "*",
+        "async": "*",
+        "stylus": "*",
+        "sqwish": "*",
+        "copy-paste": "*",
+        "minimist": "*",
+        "lwip": "*"
+    },
+    "private": true
+}

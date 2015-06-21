@@ -1,0 +1,138 @@
+/*!
+    Slight, by huw
+    Find us at /r/Slight or /u/3vans
+    v1.0 (beta)
+    PLEASE DON'T DIRECTLY EDIT THE CSS HERE! USE STYLUS AND AN EDITOR!
+*/
+
+///// VARIABLES
+// Here are all of the variables that this project uses. The aim is to
+// keep this number to a minimum, so that the user can easily customise
+// the stylesheet just by editing these values
+
+/// IMAGE DATA
+    // If you want to use a custom image, you MUST update this data.
+    // If you don't, a lot of important metrics will break. `size` is
+    // fairly self-explanatory (width, then height). `base` is for CSS
+    // sprites only, and determines the base size of a css sprite,
+    // provided you use a grid.
+        
+    image_data = {
+        'spritesheet': {
+            size: image-size('images/spritesheet.png'),
+            base: 18px
+        },
+        'logo': {
+            size: image-size('images/logo.png')
+        },
+        'side-image': {
+            size: (600px 600px)
+        }
+    }
+
+/// COLOR SCHEME
+    // If you want to use the light icons and text on the header, set
+    // this to `true`. If you want to use a dark mode body, set
+    // `light_body` to `false`
+    light = true
+    light_body = true
+
+    // You should usually only have to just set `primary`, and the rest
+    // will be programatically determined for you
+    primary = rgba(#5478A0)
+    logo_color = #fff
+    
+    black = rgba(#000, 0.87)
+    white = rgba(#fff, 0.7)
+
+    if light
+        header_color = white
+    else
+        header_color = black
+    
+    red = #f44336
+    green = #4CAF50
+    blue = #2196F3
+    gold = #b79c1f
+    promoted_link_background = #FFD180
+    orangered = #ff5722
+    periwinkle = #2196f3
+
+    backing = #f7f7f7
+    backing_dark = #263238
+    
+    secondary_text = rgba(#000, 54%)
+    secondary_text_dark = rgba(#fff, 70%)
+    divider = rgba(#000, 12%)
+    divider_dark = rgba(#fff, 12%)
+    hint = alpha(#000, 26%)
+    hint_dark = alpha(#fff, 50%)
+        
+/// METRICS
+    // Only header stuff is really available for the moment. If you have
+    // complainy 'powerusers' who don't really care for design, push
+    // this value down a bit. `25vh` = 25% of the screen's height
+    header_height = 25vh
+    header_height_max = 200px
+
+/// OTHER
+    // The fonts that your style will use
+    fonts = "San Francisco Display", "Helvetica Neue", Roboto, Arial, sans-serif
+    
+    // Items in the tabmenu (up the top) to enable
+    menu_items = ("hot" "new" "top")
+    
+    // Link for the image tile in the sidebar (include single quotes)
+    promoted_tile = "'https://github.com/huw/slight/releases'"
+    
+    // Submit `link` or `text` by default
+    submit_type = 'text'
+    
+    // Subscribers, and users here now
+    subscriber_text = "followers"
+    online_text = "here now"
+    
+    // Do you have a 'message the moderators' link in your sidebar?
+    mod_msg_sidebar = false
+    
+    // Are you using text flairs, or image flairs?
+    image_flairs = false
+    
+    // What text should the users see on the submit page?
+    submit_warning = "If you read the sidebar before you post, you're a lot more likely to have your content accepted and enjoyed by the community! Ask yourself these: Will they enjoy my post? Am I breaking a rule? Has someone else made this post yet?"
+    
+    // What words should non-subscribed users see?
+    subscribe_message = "Follow Slight!"
+
+// Quick guide to the file structure:
+// mixins.styl contains all of the functions we use throughout the sheet
+// header.styl is a few general styles, the header, and the footer
+// content.styl is the listing & comments pages and anything in the body
+// sidebar.styl is the sidebar of reddit
+@import "styles/mixins.styl"
+@import "styles/header.styl"
+@import "styles/content.styl"
+@import "styles/sidebar.styl"
+            
+/**** SUBREDDIT-SPECIFIC STYLING ****
+ *  These styles are specific to the subreddit that this stylesheet is
+ *  applied to. In this case, it's _______.
+ */// Please write all of your subreddit-specific styles here, rather
+  // than editing any of the other sheets.
+      
+/*** NAME CHANGES ***/
+    names = ()
+    
+    {join('a.author[href$="/%s"]', names)}
+        visibility hidden
+        font-size 0
+        padding 0 2px !important
+        &::after
+            visibility visible
+            font-size 0.75rem
+            color inherit
+            background inherit
+
+    for name in names
+        {'a.author[href$="' + name + '"]::after'}
+            content "[Mod] " + name

@@ -1,0 +1,440 @@
+/**** SIDE ****
+ *  The sidebar of reddit, and anything else which goes inside it
+ */
+
+    .side
+        margin 0
+        padding 310px 5px 0 5px
+        background none
+        .spacer
+            margin 0.5rem 0 0.75rem 0
+            
+        // Sidebar image
+        .titlebox .usertext a[href={promoted_tile}]
+            display block
+            position absolute
+            top 25vh
+            right 5px // In case margins push it over
+            margin-top 10px
+            text-indent -9999px
+            image('side-image', sizes: false, oneliner: false)
+    
+    // Another bit of code I'm really proud of. If the header has scaled
+    // to its maximum height (which will happen at 800px), then stop the
+    // sidebar-image from moving down the page any further.
+    @media screen and (min-height: 800px)
+        .side .titlebox .usertext a[href={promoted_tile}]
+            top 200px
+            
+
+/*** SEARCH BOX ***/
+    #search 
+        input
+            &[type=text]
+                font(0.8rem, 400)
+            &[type=submit]
+                night-sprite(1, 3)
+                &:hover
+                    background-image url('spritesheet')
+                    
+    {night} .side .spacer > #search input
+        background-color transparent
+
+    #searchexpando
+        border none
+        border-radius 2px
+        background-color #fff59d
+        label 
+            font-weight 400
+            select
+                margin-left 5px
+
+    #moresearchinfo
+        margin-top 5px
+        nightadjust border-color divider divider_dark
+        font(0.75rem)
+        
+/*** LOGIN BOX (ONLY WHEN LOGGED OUT) ***/
+    .login-form-side
+        border none
+        border-radius 2px
+        nightadjust background #fff lighten(backing_dark, 5%)
+        shadow(1)
+        input[type=text], input[type=password]
+            border none
+            border-bottom 1px solid grey
+            font(0.75rem)
+            
+/*** SUBMIT BUTTONS ***/
+    .morelink
+        a
+            nightadjust 'color' #fff black
+            font-size 1rem
+            /{night} .morelink:hover a
+                color black
+        .nub
+            display none
+            
+    if submit_type is 'link'
+        .submit-text
+            display none
+    else if submit_type is 'text'
+        .submit-link
+            display none
+            
+/*** TITLE BOX ***
+ *  To be clear, this is the box at the top of the subreddit that
+ *  appears _after_ the submit button and _before_ the sidebar info
+ *  It includes:
+ *      - Subscribe button
+ *      - User counts
+ *      - Moderator/approved submitter panel
+ *      - Flair changer
+ *  If you use RES, we also have
+ *      - Dashboard/Shortcut buttons
+ *      - 'Use subreddit style' checkbox
+ */
+    .titlebox 
+        nightadjust 'color' black white
+        
+        // 'Use subreddit style' button
+        > div
+            padding 1vh 0
+            .res &:first-of-type
+                padding 40px 0 5px 0
+            label
+                vertical-align bottom
+    
+    .side .redditname
+        display none
+        
+    // Subscribe button
+    .fancy-toggle-button
+        .res &
+            position relative
+            top -60px
+            z-index 2147483647
+        .remove
+            background-color red
+            &:hover, {night} &:hover
+                background-color darken(@background-color, 10%)
+            &:active, {night} &:active
+                background-color darken(@background-color, 20%)
+                        
+        &.subscribe-button
+            display block
+            padding 1vh 0
+            .res &
+                display inline-block
+                padding 0
+        
+        // Message given at the bottom of the screen to unsubscribed
+        // users. Originally taken from /r/dogecoin, IIRC, but has
+        // undergone so much change since I wouldn't consider it the
+        // same code.
+        .active.add::before
+            position fixed
+            color #fff
+            display block
+            z-index 1000
+            padding 1vh 0
+            content subscribe_message
+            text-align center
+            text-transform none
+            bottom 0
+            left 0
+            width 100vw
+            background-color primary
+            font-size 1.2rem
+            font-weight 400
+    
+    .titlebox
+        // RES Shortcut and Dashboard buttons. They're going to be
+        // shuffled around a bit, so need to appear ABOVE the 'use
+        // subreddit style' button.
+        .RESshortcut, .REStoggle
+            position relative
+            width auto
+            top -59px
+            z-index 2147483647
+            padding 4px 6px
+            margin-right 0
+            border none
+            border-radius 0
+            background none
+            color primary
+            text-transform uppercase
+            transition background 0.3s ease
+            font(0.75rem, 500)
+            &:hover
+                color primary
+                nightadjust background rgba(#999, 20%) rgba(#ccc, 15%)
+            &:active
+                nightadjust background rgba(#999, 40%) rgba(#ccc, 25%)
+        .RESshortcut
+            margin-left 5px
+            
+        .subButtons
+            height 0
+            padding 0
+
+    // Subscribe/multireddit hover panel
+    .hover-bubble
+        border none
+        border-radius 2px
+        font()
+        &.multi-selector
+            label 
+                input[type=checkbox]
+                    margin-bottom 2px
+                a
+                    border none
+                    font-weight 800
+        &::before, &::after
+            display none
+    
+    // Online/subscriber counts
+    .subscribers, .users-online
+        nightadjust 'color' black white
+        cursor text
+        font(0.75rem)
+        .word
+            display none
+
+    // No stylesheet is complete until you've changed the name of the
+    // subscribers. Slight is no exception.
+    .subscribers
+        display inline-block
+        margin 5px 0
+        .number
+            &::after
+                content " " + subscriber_text
+                margin-right 5px
+                
+    .users-online
+        display inline
+        font-style italic
+        .number
+            &::before
+                content "("
+            &::after
+                content " " + online_text + ")"
+        &::before
+            display none
+            
+    // Moderator/approved submitter panel. This action is so rare
+    // that there's no good reason for it to be up here. You can
+    // resign as a moderator/approved submitter a little more
+    // formally if at all.
+    .leavemoderator
+        display none
+        
+    .titlebox     
+        form.leavecontributor-button::before
+            margin-top -2px
+            night-sprite(2, 3)
+                
+        form.toggle
+            background none
+            font(0.65rem)
+            &, a, .option
+                nightadjust 'color' black white
+            a:hover
+                color primary
+            .error
+                font-size 0.65rem
+                &, a, a:hover
+                    color red
+           
+        // Flair changer     
+        form.flairtoggle
+            margin-top 3px
+            input
+                margin 2px 0.25rem
+            label
+                margin-left 5px
+                nightadjust 'color' black white
+                font-size 0.65rem
+                text-transform lowercase
+                
+        .tagline
+            nightadjust 'color' black white
+            a:hover
+                color primary
+                text-decoration none
+                
+    // Flair changer panel
+    .flairselector
+        &.drop-choices.active
+            border none
+            shadow(1)
+        h2
+            background none
+            line-height 2rem
+        li
+            border none
+            margin 1px
+            transition background 0.3s ease
+            &.selected, &:hover
+                border none
+                background-color rgba(#999, 20%)
+        form
+            border-top solid 1px divider
+            input[type=text]
+                background-color #fff
+            .linkflair
+                display none
+    
+    .thing.link.stickied .flat-list.buttons .flairselector a
+        color black
+                
+    .flairoptionpane ul
+        .linkflair
+            .title, .linkflairlabel
+                display inline
+            .linkflairlabel
+                clear both
+                top 0
+                padding 0 2px
+        li
+            padding-left 0
+            
+                
+/*** SIDEBAR INFO ***
+ *  The bit which contains all of the user-editable information
+ *  (and the little bit at the very bottom before the ads begin)
+ */
+    .titlebox 
+        .usertext
+            margin-bottom 2vh
+            border-top 1px solid
+            nightadjust 'border-color' divider divider_dark
+        
+            // Remove the night mode warning, but keep the compatibility
+            a[href="#/RES_SR_Config/NightModeCompatible"]
+                display none
+        .bottom
+            font-size 0
+            nightadjust 'border-color' divider divider_dark
+            a.author, .userattrs, .flair
+                display none
+            .age, .age time
+                nightadjust 'color' hint hint_dark
+                font(0.65rem, 500)
+        .clear
+            padding 0
+            
+    .side .md
+        h1, h2, h3, h4, h5, h6, p, pre>code, th, td, li
+            nightadjust 'color' black white
+            font(height: 1.35rem)
+            
+        .-blocks, .-lists, pre, blockquote, table, p, ul, ol
+            margin 1rem
+            
+        h1
+            text-align center
+            
+        blockquote
+            margin 8px 8px 3vh 8px
+            {night} &
+                color white !important
+            
+        // Filters, if you choose to include them in your sidebar. I do.
+        a[href^="https://ns.reddit.com"],
+        a[href^="https://nv.reddit.com"],
+        a[href^="https://vs.reddit.com"]
+            display inline-block
+            color inherit
+                
+        del
+            display block
+            text-align center
+            text-decoration none
+        
+    // Message the moderators button
+    h2 a[href*="/message/compose?to=%2Fr%2F"]
+        font-size 1rem
+            
+/*** MODERATION TOOLS ***/
+    #moderation_tools
+        position relative
+        top -2vh
+        .title
+            height 1.5rem
+    
+    // Styling for all sidecontentboxes
+    .sidecontentbox
+        .title
+            h1
+                nightadjust 'color' hint hint_dark
+            .collapse-button
+                display none
+        .content
+            padding 0 0.5vw
+            border none
+    
+    // The lovely moderation tools
+    .side .icon-menu
+        a
+            background none
+            nightadjust 'color' black white
+            vertical-align middle
+            &:hover
+                color primary
+            &::before
+                sprite(3, 3, important: true)
+        li
+            height 18px
+        
+    icon-selectors = {
+        "reddit-edit": (3 3),
+        "edit-stylesheet": (4 3),
+        "moderator-mail": (2 1),
+        "reddit-moderators": (3 1),
+        "reddit-contributors": (2 3),
+        "reddit-traffic": (5 3),
+        "reddit-modqueue": (6 3),
+        "reddit-reported": (7 3),
+        "reddit-spam": (1 5),
+        "reddit-edited": (2 5),
+        "reddit-ban": (3 5),
+        "reddit-flair": (4 5),
+        "reddit-moderationlog": (5 5),
+        "reddit-unmoderated": (6 5)
+    }
+    
+    // Basically just loop through that list and apply the appropriate
+    // icons. Makes it a lot easier to add new ones and also I didn't
+    // have to copypaste hundreds of lines. Pretty happy.
+    for selector, coords in icon-selectors
+        .side .icon-menu .{selector}::before
+            night-pos(coords[0], coords[1], important: true)
+    
+    // For some reason this one's different. Fix it.
+    .icon-menu .moderator-mail::before
+        margin-top 0
+        
+    // Go create a subreddit somewhere else.
+    .sidebox.create
+        display none
+        
+    // MESSAGE THE MODERATORS
+    // We remove this button if its going to be in your sidebar
+    .sidecontentbox a.helplink
+        if mod_msg_sidebar
+            display none
+        else
+            display block
+            float inherit
+            text-align center
+            font-size 1rem
+        
+    // ACCOUNT ACTIVITY
+    .account-activity-box
+        opacity 0
+        transition opacity 0.3s ease
+        &:hover
+            opacity 1
+        a:hover
+            color inherit

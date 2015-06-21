@@ -1,0 +1,246 @@
+///// VARIABLES
+// These aren't gonna be changed by ordinary users, so let's store them
+// here
+
+    // The unweildy retina display query string
+    retina = "only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)"
+    
+    // Night mode
+    night = ".res-nightmode"
+
+///// FUNCTIONS
+// Enter the function dungeon for even more options! Most of the
+// functions here are usually just shortcuts for really common stuff
+// that might require extra customisation on the ground
+ 
+    font(size = inherit, weight = inherit, height = inherit)
+        // Sets the font family to the one's that we've chosen
+        // And also conveniently handles other font settings
+        unless size is inherit
+            font-size: size
+        unless weight is inherit
+            font-weight: weight
+        unless height is inherit
+            line-height: height
+        font-family: fonts
+
+    ops(type)
+        // A handy shortcut for per-settings options
+        // Users can use html languages (me.reddit.com) to change
+        // certain CSS settings.
+        // This function facilitates that use. Use it like {ops(type)} 
+        // as a nested selector.
+        if type is 'vote'
+            "html:lang(nv) &, html:lang(vs) &"
+        else if type is 'spoil'
+            "html:lang(ns) &, html:lang(vs) &"
+
+    url(name)
+        // Shortcut for reddit's URL schema. Put the name (in quotes) of
+        // your image as it is hosted on reddit's servers, and it'll
+        // give back a properly formatted `url(%%name%%)`
+        "url(%%%s%%)" % unquote(name)
+        
+    exclaim(important = true)
+        // Convenience for !important, to be used in functions
+        if important
+            return !important
+        else
+            return unquote('')
+        
+    join(constant, args)
+        // A helpful method which helps with iterative statements
+        // See other useages for help
+        buffer = ''
+        for bit, index in args
+            selector = constant % unquote(bit)
+            if index
+                buffer += ', ' + selector
+            else
+                buffer += selector
+
+    background-pos(column, row, sheet = 'spritesheet', important = false)
+        // Spritesheet-based convenience for background-position
+        // All arguments are explained in `sprite()` or `image()` below
+        important = exclaim(important)
+        
+        // Note: background-position describes a _shift_, so negative
+        // co-ords are required. This will handle that automatically.
+        base = image_data[sheet].base * -1
+        x = base * (column - 1)
+        y = base * (row - 1)
+        background-position: x y important
+        
+    night-pos(column, row, sheet = 'spritesheet', vertically = true, base = 1, important = false)
+        // A way to handle background-pos for dark mode
+        // `base` is how many columns/rows to skip to find the sprite
+        // All other arguments are described in the functions above
+        new_row = row
+        new_column = column
+
+        if vertically
+            new_row = row + base
+        else
+            new_column = column + base
+
+        if light_body
+            background-pos(column, row, sheet, important)
+        else
+            background-pos(new_column, new_row, sheet, important)
+        {night} &
+            background-pos(new_column, new_row, sheet, important)
+        
+    image(name, spritesheet = false, sizes = true, oneliner = false, important = false)
+        // `name` is the name of the image to display
+        // `spritesheet` decides if this image is a spritesheet
+        // `sizes` is set to `true` if there's multiple sizes of the
+        //      image. If it's set to `false`, your single image is
+        //      presumed to already be exported at 2x.
+        // `oneliner` helps differentiate between reddit and RES'
+        //      different uses of `background` and `background-image`.
+        //      Set to `true`, it will use `background`.
+        // `important` determines whether to set an `!important` flag.
+        important = exclaim(important)
+
+        if oneliner
+            background: url(name) no-repeat important
+            if sizes
+                @media retina
+                    background: url(name + '2x') no-repeat important
+        else
+            if sizes
+                background-image: url(name)
+                @media retina
+                    background-image: url(name + '2x') important
+            else
+                background-image: url(name) important           
+            background-repeat: no-repeat
+        
+        // Scale the image down if there's only one size
+        // (we've already exported it at 2x)
+        sdata = image_data[name]
+        x-size = sdata.size[0]
+        y-size = sdata.size[1]     
+        if not sizes
+            x-size /= 2
+            y-size /= 2  
+
+        background-size: x-size y-size important
+        unless spritesheet
+            width: x-size
+            height: y-size
+        
+
+    sprite(column, row, sheet = 'spritesheet', w = 0, h = 0, oneliner = false, important = false)
+        // Initialise an image using a spritesheet
+        // `column` and `row` describe the sheet co-ords, starting at
+        //      (1, 1) in the top left corner of the sheet.
+        // `sheet` is the name of the image
+        // `w` and `h` are the custom width and height of the _sprite_
+        // `oneliner` is passed to `image()`
+        // `important` is passed to `image()`
+        image(sheet, spritesheet: true, oneliner: oneliner, important: important)
+        background-pos(column, row, sheet)
+        
+        important = exclaim(important)
+        sdata = image_data[sheet]
+        
+        if w == 0 and h == 0
+            width: sdata.base important
+            height: sdata.base important
+        else
+            width: w
+            height: h
+        
+    night-sprite(column, row, sheet = 'spritesheet', w = 0, h = 0, oneliner = false, vertically = true, important = false)
+        // Adjusts a sprite for either the inbuilt dark mode, or RES'
+        // `vertically` determines whether the dark mode version of the
+        //      sprite will be found below the light mode one, or to the
+        //      right of it.
+        // All other arguments are passed into `sprite()`
+        new_row = row
+        new_column = column
+        
+        // If the function is given a non-default width, then it gets
+        // a little trickier. This function presumes that anything which
+        // doesn't take up the default amount is positioned in such a
+        // way that it still conforms to the gridlines. If your grid is
+        // 10px, and your custom sprite takes up 25px*25px, then the
+        // function will search for the next sprite 10 * 3 = 30px down.
+        if w == 0 and h == 0
+            if vertically
+                new_row = row + 1
+            else
+                new_column = column + 1
+        else
+            base_height = image_data[sheet].base
+            if vertically
+                new_row = row + ceil(h / base_height)
+            else
+                new_column = column + ceil(w / base_height)
+
+        if light_body
+            sprite(column, row, sheet, w, h, oneliner, important)
+        else
+            sprite(new_column, new_row, sheet, w, h, oneliner, important)
+        {night} &
+            background-pos(new_column, new_row, sheet, important)
+        
+    bottom-shadow(depth)
+        offset = (1.5 3 6 10 15)[depth] * 1px
+        blur = (1 3 3 5 6)[depth] * 4px
+        color = rgba(#000, (.24 .23 .23 .22 .22)[depth])
+
+        0 offset blur color
+        
+    top-shadow(depth)
+        offset = (1.5 3 10 14 19)[depth] * 1px
+        blur = (1.5 3 10 14 19)[depth] * 4px
+        color = rgba(#000, (.12 .16 .19 .25 .30)[depth])
+
+        0 offset blur color
+
+    shadow(depth)
+        // Material Design shadows. Found this somewhere, don't remember
+        // where, but useful nonetheless.
+        // `depth` describes the level of shadow, as per Material guides
+        depth = depth - 1
+        box-shadow bottom-shadow(depth), top-shadow(depth)
+        
+    nightadjust(property, light, dark, important = false)
+        // Adjusts the given property for night mode.
+        // `property` is the property to change
+        // `light` is the value it should exhibit normally
+        // `dark` is the property it should exhibit in dark mode
+        // `important` as normal
+        important = exclaim(important)
+        if light_body
+            {property} light
+        else
+            {property} dark
+        {night} &
+            {property} dark important
+            
+///// VENDOR FUNCTIONS
+// Use the magic of transparent mixins to vendor-prefix anything we need
+// in the style of the now-outdated nib. Not everything needs crazy
+// prefixing, so these functions handle a little bit of that. Skip past
+// them unless you're running into serious compatibility issues.
+//
+// Not all of these are used by our stylesheet, but are included for
+// anyone who wants to extend it! Also, no need for `transition`!
+//
+// Prefixing requirements from shouldiprefix.com, 2015-06-19.
+
+animation()
+    -webkit-animation: arguments;
+    animation: arguments;
+
+filter()
+    -webkit-filter: arguments;
+    filter: arguments;
+            
+transform()
+    -webkit-transform: arguments;
+    -ms-transform: arguments;
+    transform: arguments;

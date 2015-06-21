@@ -1,0 +1,9 @@
+{
+  "cmd": ["node", "$file_path/compile.js", "compile"],
+  "file_regex": ".",
+  "selector": "source.stylus",
+  "osx":
+  {
+    "path": "/usr/local/bin:/usr/local/share/npm/bin:$PATH"
+  }
+}

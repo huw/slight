@@ -1,0 +1,451 @@
+// Reset a bunch of night mode styles #thanksRES
+    {night}
+        .side, #siteTable .thing .title, .side .leavemoderator, 
+        .side .leavecontributor-button, .side .titlebox,
+        .side .spacer .titlebox .redditname, .side .titlebox .flairtoggle, 
+        .side .usertext-body .md ol, .side .usertext-body .md ol ol, 
+        .side .usertext-body .md ol ol li, .side .titlebox form.flairtoggle,
+        .side .md ul, .icon-menu a, body .content
+            border none
+            background none
+            
+        .side a, .md p a
+            color inherit
+    
+    // Reset RES' night-mode tendency to colour even-numbered links
+    {night} .listing-page .sitetable > div:nth-of-type(4n+1)
+        background none
+
+    // Change the default font (mostly)
+    body
+        font()
+
+
+/**** HEADER ****
+ *  The header area is anything encompassed within `#header` of reddit's 
+ *  css. It includes the subreddit bar, the user bar, the subreddit 
+ *  title, and the navigation tabs. Anything which may need to be moved 
+ *  up here should also be included within this definition
+ */
+    // Remove the reddit logo—users can click 'front' if they want to go
+    // to the homepage.
+    a#header-img
+        display none !important
+
+    // `background-size cover` makes the background fill up the header
+    // We can also center it, and we have some nice variable heights too
+    #header
+        height header_height
+        min-height (header_height_max / 3)
+        max-height header_height_max
+        border none
+        background url('header')
+        background-size cover
+        background-position center center
+
+
+/*** Subreddit Header Bar ***
+ *  This is the list of subreddits within the main header.
+ *  In Slight, this has no background and is a part of the main header.
+ */
+
+    #sr-header-area
+        background none
+        border none
+        
+        // These bits are the different shortcut containers
+        // We want to make room on the right for the user bar
+        &, .width-clip, .res & #RESShortcutsEditContainer
+            margin-right 325px
+        .res & #RESShortcutsViewport
+            margin-right 72px
+        .loggedin & .width-clip
+            margin-right 230px
+        .width-clip
+            z-index 2
+            
+        {night} &
+            background none
+
+    .sr-list 
+        margin-right 55px
+        margin-left 5px
+    .loggedin & .sr-list
+        margin-right 40px
+
+    .sr-bar
+        font(0, 500)
+        #sr-header-area & a, a.gold, .separator, /#sr-more-link,
+        /.dropdown.srdrop .selected
+            background none
+            font-size 9px !important
+            color header_color !important
+            
+    #sr-more-link, .dropdown.srdrop .selected
+        font(9px)
+        padding 0 5px
+
+    // RES Shortcuts area
+    #RESShortcutsEditContainer 
+        top 1px !important
+        background none !important
+
+    // Those really really annoying shortcut icons
+    #RESShortcutsSort
+    #RESShortcutsRight
+    #RESShortcutsAdd
+    #RESShortcutsTrash
+    #RESShortcutsLeft 
+        width 9px
+        background none !important
+        font-size 9px !important
+        color alpha(header_color, 0) !important
+        transition color 0.3s ease
+        #sr-header-area:hover & 
+            color header_color !important
+        
+
+/*** User Bar ***
+ *  This needs to be moved upwards so that it merges with the subreddit 
+ *  bar. Many of the icons should be replaced.
+ */
+     
+    #header-bottom-right 
+        top 0px
+        right 3px
+        padding 0 !important
+        background none
+        font(10px, 500)
+
+        .res &
+            top 0px
+            height 13px
+
+        .res & #userbarToggle
+            display none !important
+
+        a 
+            color header_color
+        
+        // Don't show the user's karma if we've disabled it
+        {ops(vote)}
+            .user
+                font-size 0px
+                a
+                    font-size 11px
+                .userkarma
+                    display none
+                
+        .separator
+            font-size 0
+            margin 0 4px
+            padding none
+            
+        {night} &
+            background none
+
+    .user
+        color header_color
+        #RESAccountSwitcherIcon
+            if not light
+                sprite(1, 1)
+            else
+                sprite(1, 2)
+            border 0
+            padding 0
+            margin 0 4px
+            
+            // Might need some layout changes if the userkarma is off
+            {ops('vote')}
+                margin -6px 0 0 4px
+
+    .userkarma
+        border-bottom none
+        {night} &
+            color header_color
+            
+    // RES Account Switcher & overlay
+    #RESAccountSwitcherIconOverlay, #RESMainGearOverlay
+        display block !important
+        border none !important
+        border-top-left-radius 2px !important
+        border-top-right-radius 2px !important
+        background-color backing !important
+        opacity 0
+        transition opacity 0.3s ease
+        &:hover, &:hover + .RESDropdownList
+            visibility visible !important
+            opacity 1 !important
+
+    #RESAccountSwitcherIconOverlay
+        top 14px
+        right 204px
+        margin 4px 0 0 3px
+        sprite(1, 1, important: true)
+        
+        {night} &
+            background-color backing_dark !important
+            sprite(1, 2, important: true)
+        
+    #RESAccountSwitcherDropdown
+        top 21px
+        right 150px
+        margin -3px 0 0 0
+
+    // This applies to other RES dropdowns as well
+    // Also a really good example of how much I dislike RES. Just look
+    // at all that compatibility stuff and `!important`s. WTF.
+    .RESDropdownList
+        display block !important
+        visibility hidden
+        border none
+        border-radius 2px
+        background-color backing
+        opacity 0
+        transition opacity 0.3s ease
+        shadow(1)
+        &:hover
+            visibility visible !important
+            opacity 1 !important
+        a, a:visited
+            color black !important
+        li
+            border none
+            color black
+            transition background 0.3s ease, color 0.3s ease
+            font(weight: 400)
+            &:hover
+                background rgba(#000, 0.12) !important
+                color inherit !important
+                {night} &
+                    background backing_dark
+            a:hover, {night} & a:hover
+                background none !important
+            
+            {night} &, {night} & a
+                color white !important
+                background-color backing_dark
+            
+    
+    // Mail icon
+    #header-bottom-right #mail, #modmail.nohavemail, #modmail.havemail, 
+    .pref-lang, .gearIcon, .logout a
+        sprite(2, 1)
+        display inline-block
+        vertical-align middle
+        text-indent -9999px
+
+    #header-bottom-right #mail
+        if not light
+            background-pos(2, 1)
+        else
+            background-pos(2, 2)
+        top 0 !important
+        width 18px !important
+        &.havemail
+            top 0 !important
+            background-pos 7 1
+    
+    .message-count
+        height 11px
+        padding-bottom 1px
+        vertical-align middle
+    
+    // Moderator mail
+    #modmail
+        top 0
+        margin-bottom 0
+        &.nohavemail
+            if not light
+                background-pos(3, 1)
+            else
+                background-pos(3, 2)
+        &.havemail
+            background-pos(7, 2)
+    
+    // Preferences (Reddit)
+    .pref-lang
+        if not light
+            background-pos(4, 1)
+        else
+            background-pos(4, 2)
+            
+    // Settings (RES)
+    #header-bottom-right .gearIcon
+        if not light
+            background-pos(5, 1)
+        else
+            background-pos(5, 2)
+        margin 0 !important
+        
+    #RESMainGearOverlay
+        top 0
+        right 0
+        width 18px !important
+        height 18px !important
+        margin -1px 0 0 7px
+        .gearIcon
+            top 0 !important
+            left 0 !important
+            background-pos(5, 1)
+            
+    #RESPrefsDropdown
+        top 0
+        right 0
+        margin 4px 5px 0 0
+            
+    .moduleToggle .toggleOn
+    .toggleButton .toggleOn
+    .moduleToggle .toggleOff
+    .toggleButton .toggleOff
+        border none !important
+        color black
+        
+    // Logout
+    .logout a
+        if not light
+            background-pos(6, 1)
+        else
+            background-pos(6, 2)
+        
+/*** Title Area ***
+ * This is responsible for the big logo up the top, and the tabs for
+ * each section of the subreddit (like 'hot', 'new' and 'top')
+ */
+ 
+    #header-bottom-left
+        font-size 0          
+                    
+    #header .tabmenu    
+        display block
+        position absolute
+        top 70%
+        width 100%
+        text-align center
+        z-index 2
+
+        li
+            display inline-block
+            margin 0
+            &.selected a
+                // This goes before the other one, so that the other one
+                // can override some of the styles here
+                border none
+                background none
+                color logo_color
+                font-weight 700
+                
+                {night} &
+                    background none !important
+                    &:hover
+                        background alpha(#fff, 0.2)
+                    &:active
+                        background alpha(#fff, 0.4)
+            
+            a
+                display none
+                margin 0 7px
+                padding 4px 8px
+                background none
+                color logo_color
+                text-transform uppercase
+                letter-spacing 2.12px
+                transition background 0.3s ease
+                font(20px, 300)
+                
+                {night} &
+                    background none
+                &:hover
+                    background alpha(#fff, 0.2)
+                &:active
+                    background alpha(#fff, 0.4)
+            
+            // Only enable the menu items that have been specified by
+            // the moderators in the top of the sheet.
+            // Another one of my favourite bits of code here.
+            for item in menu_items
+                if item is "hot"
+                    selector = "&:first-child a"
+                else
+                    selector = "a[href$='/%s/']" % unquote(item)
+                {selector}
+                    display inline
+                    
+    #header-img
+        width 0
+        height 0
+        margin 0
+        
+    .pagename
+        margin 0
+        font-size 0
+        a
+            // Subreddit logo!
+            // This is some of my favourite code, because it's a little
+            // hacky but in the end it scales the logo with the rest of
+            // the header — even when the header reaches its max-height!
+            image('logo', sizes: false)
+            min-height @height
+
+            display block
+            visibility visible
+            position absolute
+            top 0
+            height header_height
+            max-height header_height_max
+            left 50%
+            margin-left (@width / -2)
+            background-position center
+            text-indent -9999px
+            z-index 1   
+    
+    // Don't display the tabmenu on anything other than listing pages
+    body:not(.listing-page) #header .tabmenu
+        display none
+        
+/**** FOOTER ****
+ *  Reddit's footer is pretty simple. This just kinda nices it up
+ *  a bit so that it fits in with the rest of the design.
+ */
+    .footer-parent
+        padding-top 2.5rem
+    .footer
+        margin 1rem auto
+        border none
+        border-radius 2px
+        .col
+            border none
+        &, .moderator &
+            nightadjust background rgba(#000, 2%) rgba(#000, 5%)
+                
+    .flat-vert
+        &.title
+            font(1.15rem, 200)
+            
+    .buygold
+        color primary
+        font-weight 800
+        
+    .bottommenu
+        max-width 600px
+        margin 0 auto
+        font(0.65rem, 300, 0.85rem)
+        a:hover
+            text-decoration underline
+        
+    .debuginfo
+        text-align center
+        font(0.65rem, 300, 0.85rem)
+        .content
+            display inline
+            opacity 0
+            transition opacity 0.3s ease
+            &:hover
+                opacity 1
+        .icon
+            display none
+        {night} & .content, /{night} .footer a
+            color rgb(128, 128, 128)
+    
+    {night} .footer a:hover
+        color darken(primary, 30%)
