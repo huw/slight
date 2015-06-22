@@ -132,21 +132,22 @@
         // users. Originally taken from /r/dogecoin, IIRC, but has
         // undergone so much change since I wouldn't consider it the
         // same code.
-        .active.add::before
-            position fixed
-            color #fff
-            display block
-            z-index 1000
-            padding 1vh 0
-            content subscribe_message
-            text-align center
-            text-transform none
-            bottom 0
-            left 0
-            width 100vw
-            background-color primary
-            font-size 1.2rem
-            font-weight 400
+        if subscribe_message != ""
+            .active.add::before
+                position fixed
+                color #fff
+                display block
+                z-index 1000
+                padding 1vh 0
+                content subscribe_message
+                text-align center
+                text-transform none
+                bottom 0
+                left 0
+                width 100vw
+                background-color primary
+                font-size 1.2rem
+                font-weight 400
     
     .titlebox
         // RES Shortcut and Dashboard buttons. They're going to be
