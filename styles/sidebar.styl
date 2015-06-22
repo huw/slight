@@ -4,27 +4,30 @@
 
     .side
         margin 0
-        padding 310px 5px 0 5px
+        padding 5px
         background none
         .spacer
             margin 0.5rem 0 0.75rem 0
-            
-        // Sidebar image
-        .titlebox .usertext a[href={promoted_tile}]
-            display block
-            position absolute
-            top 25vh
-            right 5px // In case margins push it over
-            margin-top 10px
-            text-indent -9999px
-            image('side-image', sizes: false, oneliner: false)
-    
+        
+        if promoted_tile != ""
+            padding-top 310px
+            // Sidebar image
+            .titlebox .usertext a[href={promoted_tile}]
+                display block
+                position absolute
+                top 25vh
+                right 5px // In case margins push it over
+                margin-top 10px
+                text-indent -9999px
+                image('side-image', sizes: false, oneliner: false)
+        
     // Another bit of code I'm really proud of. If the header has scaled
     // to its maximum height (which will happen at 800px), then stop the
     // sidebar-image from moving down the page any further.
-    @media screen and (min-height: 800px)
-        .side .titlebox .usertext a[href={promoted_tile}]
-            top 200px
+    if promoted_tile != ""
+        @media screen and (min-height: 800px)
+            .side .titlebox .usertext a[href={promoted_tile}]
+                top 200px
             
 
 /*** SEARCH BOX ***/

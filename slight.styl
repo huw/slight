@@ -83,6 +83,7 @@
     menu_items = ("hot" "new" "top")
     
     // Link for the image tile in the sidebar (include single quotes)
+    // Leave it blank if you want the tile to disappear
     promoted_tile = "'https://github.com/huw/slight/releases'"
     
     // Submit `link` or `text` by default
@@ -123,16 +124,17 @@
 /*** NAME CHANGES ***/
     names = ()
     
-    {join('a.author[href$="/%s"]', names)}
-        visibility hidden
-        font-size 0
-        padding 0 2px !important
-        &::after
-            visibility visible
-            font-size 0.75rem
-            color inherit
-            background inherit
+    if names
+        {join('a.author[href$="/%s"]', names)}
+            visibility hidden
+            font-size 0
+            padding 0 2px !important
+            &::after
+                visibility visible
+                font-size 0.75rem
+                color inherit
+                background inherit
 
-    for name in names
-        {'a.author[href$="' + name + '"]::after'}
-            content "[Mod] " + name
+        for name in names
+            {'a.author[href$="' + name + '"]::after'}
+                content "[Mod] " + name
