@@ -16,7 +16,8 @@ You can find more info at [/r/slight](https://www.reddit.com/r/slight).
 4. _(Optional)_ Put all the images you want as flair in `/flairs`. Slight will automatically resize them for you, so add them in the highest resolutions you have.
 5. Edit `slight.styl` to go through what you may want to change. All of the available settings should be well-documented within the file. __If you’re using flairs, make sure `image_flairs` is set to `true`.__
 6. Add custom overrides or other styles to the end of `slight.styl` as necessary.
-7. Run compile.js using `node compile`.
+7. Run compile.js using `node compile` and paste the outputted CSS to the stylesheet page on your subreddit (outputted CSS can also be found in `output.css` for convenience)
+8. _(Optional)_ If you’re using link flairs, make sure that ‘link flair position’ is set to ‘right’ in your flair settings (/about/flair)
 
 ## Compile.js
 Compile.js is a script I wrote for Slight to use. It will take a fully-edited `slight` directory, and preform all of the necessary image manipulation and CSS preprocessing required to get Slight up and running. It does the following:
