@@ -10,7 +10,7 @@ You can find more info at [/r/slight](https://www.reddit.com/r/slight).
 4. `node compile`
 
 ## How to Use
-1. Make sure you’ve installed [node.js](https://nodejs.org/download/)
+1. Make sure you’ve installed [node.js](https://nodejs.org/download/), and all of the prerequisites for [node-gyp](https://github.com/TooTallNate/node-gyp#installation)
 2. Run `npm install` in this folder
 3. Change out the images in `/images` with your own alternatives, where necessary. You can use `useful stuff/template.sketch` to help out if you have [Sketch](http://bohemiancoding.com/sketch/) installed.
 4. _(Optional)_ Put all the images you want as flair in `/flairs`. Slight will automatically resize them for you, so add them in the highest resolutions you have.
