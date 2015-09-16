@@ -12,7 +12,7 @@
         if promoted_tile != ""
             padding-top 310px
             // Sidebar image
-            .titlebox .usertext a[href={promoted_tile}]
+            .titlebox .usertext {promoted_selector}
                 display block
                 position absolute
                 top 25vh
@@ -26,7 +26,7 @@
     // sidebar-image from moving down the page any further.
     if promoted_tile != ""
         @media screen and (min-height: 800px)
-            .side .titlebox .usertext a[href={promoted_tile}]
+            .side .titlebox .usertext {promoted_selector}
                 top 200px
             
 
