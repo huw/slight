@@ -15,27 +15,25 @@ var args = minimist(process.argv.slice(2))._
 
 function resize(cb) {
     // Create the destination folder
-    mkdirp('./flairs/resized', function(err) {
-        mkdirp('./flairs/resized2x', function(err) {
-            fs.readdir('./flairs', function(err, files) {
+    mkdirp('./flairs/resized', function(err) {\
+        fs.readdir('./flairs', function(err, files) {
+            if (err) throw err
+
+            // Async magic!
+            async.eachSeries(files, function(file, callback) {
+                resizeimg({
+                    src: path.join('./flairs', '/', file),
+                    dest: './flairs/resized',
+                    file: file
+                }, callback)
+            }, function(err) {
                 if (err) throw err
+                console.log("All images resized")
 
-                // Async magic!
-                async.eachSeries(files, function(file, callback) {
-                    resizeimg({
-                        src: path.join('./flairs', '/', file),
-                        dest: './flairs/resized',
-                        file: file
-                    }, callback)
-                }, function(err) {
-                    if (err) throw err
-                    console.log("All images resized")
-
-                    if (cb) {
-                        cb()
-                    }
-                })
-            });
+                if (cb) {
+                    cb()
+                }
+            })
         });
     });
 }
@@ -54,27 +52,19 @@ function resizeimg(params, callback) {
             // dimensions. If the image is really wide, though, then we want
             // to make it a little smaller to reduce its size.
             var aspect = image.width() / image.height()
-            var width = 42
-            var height = 18
+            var width = 84
+            var height = 36
             if (aspect >= 7/3) {
-                width = 100
-                height = 14
+                width = 200
+                height = 28
             }
 
             var scale = Math.min(width / image.width(), height / image.height())
-            var retinascale = Math.min((width * 2) / image.width(), (height * 2) / image.height())
-
-            var retinaimage = image
             asyncTasks = []
 
             image.batch().scale(scale).writeFile(params.dest + '/' + params.file, function(err) {
                 if (err) throw err
-                lwip.open(params.src, function(err, image) {
-                    image.batch().scale(retinascale).writeFile(params.dest + '2x/' + params.file, function(err) {
-                        if (err) throw err
-                        callback()
-                    })
-                })
+                callback()
             })
         });
     } else {
@@ -93,27 +83,9 @@ function makeNormal(callback) {
             spritePath: '%%flairsheet%%'
         },
         layoutOptions: {
-            padding: 2
-        }
-    }, function(err) {
-        callback()
-    });
-}
-
-function makeRetina(callback) {
-    nsg({
-        src: ['./flairs/resized2x/*'],
-        spritePath: './images/flairsheet2x.png',
-        layoutOptions: {
             padding: 4
         }
     }, function(err) {
-        callback()
-    });
-}
-
-function makeSheet(callback) {
-    async.parallel([makeNormal, makeRetina], function(err) {
         if (err) throw err
         console.log("Spritesheets created")
         fs.readFile('./styles/flairs.css', 'utf8', function (err,data) {

@@ -1,16 +1,16 @@
 {
-    "name": "reddit-slight",
-    "version": "1.0.3",
-    "description": "Slight – Simple and powerful CSS for subreddits",
-    "dependencies": {
-        "mkdirp": "*",
-        "node-sprite-generator": "*",
-        "async": "*",
-        "stylus": "*",
-        "sqwish": "*",
-        "copy-paste": "*",
-        "minimist": "*",
-        "lwip": "*"
-    },
-    "private": true
+  "name": "reddit-slight",
+  "version": "1.0.3",
+  "description": "Slight – Simple and powerful CSS for subreddits",
+  "dependencies": {
+    "async": "*",
+    "copy-paste": "*",
+    "lwip": "*",
+    "minimist": "*",
+    "mkdirp": "*",
+    "node-sprite-generator": "*",
+    "sqwish": "*",
+    "stylus": "*"
+  },
+  "private": true
 }

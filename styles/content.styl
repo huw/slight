@@ -778,14 +778,13 @@
             
             background-image url('flairsheet')
             background-repeat no-repeat
-            background-size image-size('images/flairsheet.png')
+            background-width = image-size('images/flairsheet.png')[0] / 2
+            background-height = image-size('images/flairsheet.png')[1] / 2
+            background-size background-width background-height
             
             text-indent -9999px
             cursor help
             vertical-align middle
-            
-            @media retina
-                background-image url('flairsheet2x')
                 
         else
             margin 0
