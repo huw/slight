@@ -80,8 +80,10 @@ function makeNormal(callback) {
         stylesheetPath: './styles/flairs.css',
         stylesheetOptions: {
             prefix: 'flair-',
-            spritePath: '%%flairsheet%%'
+            spritePath: '%%flairsheet%%',
+            pixelRatio: 2
         },
+        layout: 'packed',
         layoutOptions: {
             padding: 4
         }
