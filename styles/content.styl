@@ -445,12 +445,16 @@
             &>.title
                 margin 0
                 a
-                    overflow hidden
-                    text-overflow ellipsis
-                    white-space nowrap
+                    .listing-page &
+                        // Disable the link cut-off on anything but the
+                        // listing pages. It's pointless to cut it off
+                        // in the comments.
+                        overflow hidden
+                        text-overflow ellipsis
+                        white-space nowrap
                     if fonts[0] = "San Francisco Display"
                         // San Francisco does not yet have an adequete
-                        // 330-weighted variant. If it's being used,
+                        // 300-weighted variant. If it's being used,
                         // fall back to Helvetica Neue
                         font-family "Helvetica Neue", Roboto, Arial, sans-serif
                         font-size 1.2rem
