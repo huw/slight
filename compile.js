@@ -15,7 +15,7 @@ var args = minimist(process.argv.slice(2))._
 
 function resize(cb) {
     // Create the destination folder
-    mkdirp('./flairs/resized', function(err) {\
+    mkdirp('./flairs/resized', function(err) {
         fs.readdir('./flairs', function(err, files) {
             if (err) throw err
 
