@@ -467,10 +467,13 @@
                     a
                         position relative
                         margin-right 0.2rem
-                        bottom 1px
+                        
+                        // `text-top` happens to put the element below
+                        // the position we want, by its height. So push
+                        // it up by `0.75rem` and it works on everything
+                        bottom 0.75rem
+                        vertical-align text-top
                         font(0.75rem, 400)
-                        .res &
-                            bottom 4px
                             
     .approval-checkmark
         margin-bottom -2px
