@@ -72,10 +72,10 @@ function resizeimg(params, callback) {
     }
 }
 
-function makeNormal(callback) {
+function makeSheet(callback) {
     nsg({
         src: ['./flairs/resized/*'],
-        spritePath: './images/flairsheet.png',
+        spritePath: './images/flairsheet2x.png',
         stylesheet: 'prefixed-css',
         stylesheetPath: './styles/flairs.css',
         stylesheetOptions: {
@@ -90,19 +90,43 @@ function makeNormal(callback) {
     }, function(err) {
         if (err) throw err
         console.log("Spritesheets created")
-        fs.readFile('./styles/flairs.css', 'utf8', function (err,data) {
-            if (err) throw err
-            // Minify the resulting sprite css. It's big and repetitive.
-            // Taking everything past the 76th character will remove the
-            // useless first line (already handled, thx very much)
-            var result = sqwish.minify(data).substring(76)
+        callback()
+    });
+}
 
-            fs.writeFile('./styles/flairs.css', result, 'utf8', function (err) {
+function resizeAndMinify(callback) {
+    lwip.open('./images/flairsheet2x.png', function(err, image) {
+        if (err) throw err
+
+        // Duplicate and resize the 2x flairsheet into a 1x flairsheet
+        // This way we can have two flairsheets, but without all of the
+        // drawbacks that used to occur from resizing each sprite
+        // individually.
+        image.batch().scale(1/2).writeFile('./images/flairsheet.png', function (err) {
+            if (err) throw err
+            fs.readFile('./styles/flairs.css', 'utf8', function (err,data) {
                 if (err) throw err
-                console.log("Minified flair styling")
-                if (callback) {
-                    callback()
-                }
+                
+                // Yum, regex
+                // Basically, the output we get from the spritesheet
+                // generator has some fluff at the front which is
+                // already handled by Slight. This used to be stripped
+                // by stripping out characters (substr), but since we
+                // set `pixelRatio: 2`, the output varies depending on
+                // the amount of flairs.
+                //
+                // This regex looks for either a `%%'}`, or a `px}.`,
+                // which are output right before the data we need. We
+                // then take everything after it for our purposes.
+                var result = sqwish.minify(data).match(/((?:px\})|(?:%%'\)\}))(\..+)/)[2]
+
+                fs.writeFile('./styles/flairs.css', result, 'utf8', function (err) {
+                    if (err) throw err
+                    console.log("Minified flair styling")
+                    if (callback) {
+                        callback()
+                    }
+                });
             });
         });
     });
@@ -144,13 +168,17 @@ fs.open('./flairs', 'r', function(err, data) {
         // Do all functions
         resize(function(){
             makeSheet(function(){
-                renderStyles()
+                resizeAndMinify(function(){
+                    renderStyles()
+                })
             })
         })
     } else if (args.indexOf('resize') > -1) {
         resize()
     } else if (args.indexOf('make-sheet') > -1) {
-        makeSheet()
+        makeSheet(function(){
+            resizeAndMinify()
+        })
     } else if (args.indexOf('compile') > -1) {
         renderStyles()
     }
