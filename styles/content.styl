@@ -483,6 +483,11 @@
         a:hover
             text-decoration none
         
+        if image_flairs
+            // This stuff breaks when there's image flairs, so fix it
+            > *
+                vertical-align middle
+        
     .flat-list.buttons
         font-size 0.75rem
         .listing-page & .first
@@ -554,8 +559,13 @@
     // `tagline` = Username
     .link .tagline
         display inline-block
-        height 18px
-        vertical-align middle
+        if image_flairs
+            position relative
+            line-height 18px
+            top -1px
+        else
+            height 18px
+            vertical-align middle
         font-size 0
         time, /a.author
             font-size 0.75rem
@@ -745,6 +755,8 @@
             nightadjust 'color' secondary_text secondary_text_dark
         &:hover
             color primary
+        .link &
+            margin-right 3px
     
     /** RES User Tagger **/    
     .RESUserTag
@@ -775,19 +787,16 @@
             // Width and height will be overridden by custom flairs.
             width 0
             height 0
-            margin 0 0 0 5px
+            margin 0 0 0 2px
             padding 0
             border-radius 0
             
             background-image url('flairsheet')
             background-repeat no-repeat
-            background-width = image-size('images/flairsheet.png')[0]
-            background-height = image-size('images/flairsheet.png')[1]
-            background-size background-width background-height
+            background-size image-size('images/flairsheet.png')
             
             text-indent -9999px
             cursor help
-            vertical-align middle
             
             @media retina
                 background-image url('flairsheet2x')
