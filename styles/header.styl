@@ -53,6 +53,11 @@
         background none
         border none
         
+        body &
+            // Override an RES glitch which shows a scrollbar here
+            // (We do the same thing by cutting it off where needed)
+            overflow-x visible
+        
         // These bits are the different shortcut containers
         // We want to make room on the right for the user bar
         &, .width-clip, .res & #RESShortcutsEditContainer
