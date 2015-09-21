@@ -961,14 +961,28 @@
         .res & > .comment
             background #fff
             shadow(1)
-    
-    // Not even gonna bother changing the colour here
-    // This is something you have to put up with for using RES       
+       
     .res-commentBoxes .comment
         border none !important
     
     .res-commentBoxes.res-commentBoxes-rounded .comment
         border-radius 2px !important
+        
+    // Night mode, we need to change the background colour of any RES
+    // comment boxes. Without it, we'll cope with the default colours.
+    .res-commentBoxes .comment,
+    .res-commentBoxes .comment .comment .comment,
+    .res-commentBoxes .comment .comment .comment .comment .comment, 
+    .res-commentBoxes .comment .comment .comment .comment .comment .comment .comment,
+    .res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment .comment
+        background-color lighten(backing_dark, 5%) !important
+        
+    .res-commentBoxes .comment .comment,
+    .res-commentBoxes .comment .comment .comment .comment,
+    .res-commentBoxes .comment .comment .comment .comment .comment .comment, 
+    .res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment,
+    .res-commentBoxes .comment .comment .comment .comment .comment .comment .comment .comment .comment .comment 
+        background-color backing_dark !important
                     
     .comment
         margin 2.5vh 0
